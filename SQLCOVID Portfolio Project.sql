@@ -1,6 +1,12 @@
+/*
+Covid 19 Data Exploration
+
+Skills used: Joins, CTE's, Temp Tables, Windows Functions, Aggregate Functions, Creating Views, Converting Data Types
+
 -- This project was created at the end of my SQL certification course using COVID data from https://ourworldindata.org/covid-deaths. 
 -- The goal of this project was to explore the data and pull out case/vaccination/death insights based on population and location.
 -- Please note that the date span for this data is 2/24/2020 - 4/30/2021.
+*/
 
 SELECT *
 FROM CovidDeaths
