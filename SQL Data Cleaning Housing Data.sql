@@ -4,13 +4,17 @@
 SELECT *
 FROM NashvilleHousing
 
+---------------------------------------------------------------------------------------------
+
 --Standardizing the Date Format (We don't need the time data)
 
 ALTER TABLE NashvilleHousing
 ALTER COLUMN SaleDate Date
 
---Populate empty Property Address data
---Many of the property addresses were coming up blank, but there are also lots of duplicates in the data so the address could be found in another row. 
+---------------------------------------------------------------------------------------------
+
+--Populating empty Property Address data
+--Many of the property addresses were coming up blank, but there were also lots of duplicates in the data so the address could be found in another row. 
 --The ParcelID matches the PropertyAddress, so I used a Self-Join to populate the ProperyAddress based on the ParcelID if it is blank.
 
 SELECT *
@@ -66,6 +70,8 @@ SET PropertySplitCity = SUBSTRING(PropertyAddress, CHARINDEX(',',PropertyAddress
 SELECT OwnerAddress
 FROM NashvilleHousing
 
+---------------------------------------------------------------------------------------------
+
 --Now I'm going to do the same thing with the OwnerAddress, but in a different way.
 --Below I'm using PARSENAME since each string we need is separated by a comma. 
 --I am replacing the commas with a period, then separating them into three sections.
@@ -99,6 +105,9 @@ Add OwnerSplitState Nvarchar(255)
 UPDATE NashvilleHousing
 SET OwnerSplitState = PARSENAME(REPLACE(OwnerAddress, ',','.'),1) 
 
+
+---------------------------------------------------------------------------------------------
+	
 --Below I ran a Distinct count on the column SoldAsVacant and found that there were Yes,Y,No,N values. 
 --I want to standardize this, so I'm going to change the Y & N to Yes & No.
 
@@ -119,6 +128,8 @@ SET SoldAsVacant = CASE	when SoldAsVacant = 'Y' THEN 'YES'
 		when SoldAsVacant = 'N' THEN 'NO'
 		ELSE SoldAsVacant
 		END
+	
+---------------------------------------------------------------------------------------------
 
 --Removing Duplicates 
 --I'm putting data into a CTE in order to identify which rows that have the exact same data. 
@@ -142,6 +153,7 @@ FROM RowNumCTE
 WHERE row_num > 1
 ORDER BY PropertyAddress
 
+---------------------------------------------------------------------------------------------
 
 -- Finally, I'm going to Delete the old version of the Columns and the Columns I will not need.
 
